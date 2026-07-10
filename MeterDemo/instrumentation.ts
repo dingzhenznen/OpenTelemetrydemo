@@ -1,11 +1,15 @@
 /*instrumentation.ts*/
-import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import opentelemetry from '@opentelemetry/api';
 import {
   ConsoleMetricExporter,
+  MeterProvider,
   PeriodicExportingMetricReader,
 } from '@opentelemetry/sdk-metrics';
-import { NodeSDK } from '@opentelemetry/sdk-node';
-import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-node';
+import {
+  BatchSpanProcessor,
+  ConsoleSpanExporter,
+} from '@opentelemetry/sdk-trace-base';
+import { NodeTracerProvider } from '@opentelemetry/sdk-trace-node';
 import {
   defaultResource,
   resourceFromAttributes,
@@ -27,11 +31,17 @@ const metricReader = new PeriodicExportingMetricReader({
   exportIntervalMillis: 10000,
 });
 
-const sdk = new NodeSDK({
+const meterProvider = new MeterProvider({
   resource,
-  traceExporter: new ConsoleSpanExporter(),
-  metricReader,
-  instrumentations: [getNodeAutoInstrumentations()],
+  readers: [metricReader],
 });
 
-sdk.start();
+opentelemetry.metrics.setGlobalMeterProvider(meterProvider);
+
+const traceProvider = new NodeTracerProvider({
+  resource,
+  spanProcessors: [new BatchSpanProcessor(new ConsoleSpanExporter())],
+});
+
+traceProvider.register();
+

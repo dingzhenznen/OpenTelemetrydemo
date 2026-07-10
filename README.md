@@ -3,7 +3,9 @@ OpenTelemetrydemo
 
 getStart   自动插桩
 chazhuang  手动插桩
-MeterDemo  插桩 + 指标
+MeterDemo  插桩 + 指标  
+
+MeterDemo  手动 注册 trace 和 metric
 
 https://opentelemetry.io/zh/docs/languages/js/instrumentation/
 
