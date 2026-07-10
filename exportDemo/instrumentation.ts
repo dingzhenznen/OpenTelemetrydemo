@@ -6,6 +6,7 @@ import {
 } from '@opentelemetry/sdk-metrics';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import {
   defaultResource,
   resourceFromAttributes,
@@ -29,7 +30,12 @@ const metricReader = new PeriodicExportingMetricReader({
 
 const sdk = new NodeSDK({
   resource,
-  traceExporter: new ConsoleSpanExporter(),
+  traceExporter: new OTLPTraceExporter({
+    // 可选 - 默认 URL 为 http://localhost:4318/v1/traces
+    url: 'http://localhost:4318/v1/traces',
+    // 可选 - 每个请求要发送的自定义头信息，默认为空
+    headers: {},
+  }),
   metricReader,
   instrumentations: [getNodeAutoInstrumentations()],
 });
