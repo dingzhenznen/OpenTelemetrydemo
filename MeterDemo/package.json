@@ -1,0 +1,27 @@
+{
+  "name": "meter-demo",
+  "version": "1.0.0",
+  "description": "OpenTelemetry JS metrics demo",
+  "main": "app.js",
+  "scripts": {
+    "dev": "tsx --import ./instrumentation.ts ./app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.30.3",
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.64.1",
+    "@opentelemetry/resources": "^2.1.0",
+    "@opentelemetry/sdk-metrics": "^2.1.0",
+    "@opentelemetry/sdk-node": "^0.201.0",
+    "@opentelemetry/sdk-trace-node": "^2.1.0",
+    "@opentelemetry/semantic-conventions": "^1.36.0",
+    "@types/express": "^5.0.3",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.6"
+  }
+}
